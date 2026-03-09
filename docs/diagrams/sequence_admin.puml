@@ -1,0 +1,18 @@
+@startuml
+actor Admin
+participant Frontend
+participant Backend
+database DB
+
+Admin -> Frontend: Apre pagina prenotazioni giornaliere
+Frontend -> Backend: GET /Backend/v1/admin/bookings/today
+Backend -> DB: Recupera prenotazioni odierne
+DB --> Backend: Lista prenotazioni
+Backend --> Frontend: 200 OK { bookings }
+Admin -> Frontend: Modifica stato prenotazione
+Frontend -> Backend: PATCH /Backend/v1/admin/bookings/{id} { status }
+Backend -> DB: Aggiorna stato prenotazione
+DB --> Backend: Prenotazione aggiornata
+Backend --> Frontend: 200 OK { booking }
+Frontend -> Admin: Aggiorna tabella
+@enduml

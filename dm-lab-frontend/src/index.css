@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Open+Sans:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 20% 98%;
+    --foreground: 213 40% 16%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 213 40% 16%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 213 40% 16%;
+
+    --primary: 211 65% 28%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 40% 94%;
+    --secondary-foreground: 211 65% 28%;
+
+    --muted: 210 25% 95%;
+    --muted-foreground: 213 15% 50%;
+
+    --accent: 36 70% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214 20% 88%;
+    --input: 214 20% 88%;
+    --ring: 211 65% 28%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 211 65% 22%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 211 65% 22%;
+    --sidebar-accent: 211 60% 30%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 211 50% 35%;
+    --sidebar-ring: 211 65% 50%;
+
+    /* Custom DMlab tokens */
+    --dmlab-blue-deep: 211 65% 22%;
+    --dmlab-blue: 211 65% 28%;
+    --dmlab-blue-light: 211 55% 45%;
+    --dmlab-gold: 36 70% 50%;
+    --dmlab-gold-light: 36 60% 65%;
+    --hero-overlay: 211 70% 20%;
+  }
+
+  .dark {
+    --background: 213 40% 8%;
+    --foreground: 210 20% 95%;
+    --card: 213 35% 12%;
+    --card-foreground: 210 20% 95%;
+    --popover: 213 35% 12%;
+    --popover-foreground: 210 20% 95%;
+    --primary: 211 60% 55%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 213 30% 18%;
+    --secondary-foreground: 210 20% 90%;
+    --muted: 213 25% 16%;
+    --muted-foreground: 215 15% 60%;
+    --accent: 36 65% 55%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 213 25% 20%;
+    --input: 213 25% 20%;
+    --ring: 211 60% 55%;
+    --sidebar-background: 213 40% 6%;
+    --sidebar-foreground: 210 20% 90%;
+    --sidebar-primary: 211 60% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 213 30% 14%;
+    --sidebar-accent-foreground: 210 20% 90%;
+    --sidebar-border: 213 25% 18%;
+    --sidebar-ring: 211 60% 55%;
+    --dmlab-blue-deep: 211 60% 15%;
+    --dmlab-blue: 211 60% 55%;
+    --dmlab-blue-light: 211 50% 65%;
+    --dmlab-gold: 36 65% 55%;
+    --dmlab-gold-light: 36 55% 70%;
+    --hero-overlay: 211 70% 10%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+}
+
+@layer utilities {
+  .hero-gradient {
+    background: linear-gradient(135deg, hsl(var(--hero-overlay) / 0.85) 0%, hsl(var(--dmlab-blue) / 0.7) 100%);
+  }
+
+  .section-gradient {
+    background: linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--muted)) 100%);
+  }
+
+  .gold-accent {
+    color: hsl(var(--accent));
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+  }
+}

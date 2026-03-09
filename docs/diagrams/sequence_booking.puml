@@ -1,0 +1,14 @@
+@startuml
+actor User
+participant Frontend
+participant Backend
+database DB
+
+User -> Frontend: Sceglie un servizio e data/ora
+Frontend -> Backend: POST /Backend/v1/bookings {service_id, scheduled_at, notes}
+Backend -> DB: Valida service_id, crea booking
+Backend -> DB: Inserisce pagamento con prezzo del servizio
+DB --> Backend: Booking e Payment creati
+Backend --> Frontend: 201 Created { booking }
+Frontend -> User: Mostra conferma prenotazione
+@enduml

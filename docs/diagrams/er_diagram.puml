@@ -1,0 +1,75 @@
+@startuml
+!define table(x) class x << (T,#FFAAAA) >>
+!define primary_key(x) <b>x</b>
+
+table(User) {
+  primary_key(id): int
+  name: string
+  email: string
+  password_hash: string
+  role: string
+}
+
+table(Service) {
+  primary_key(id): int
+  name: string
+  description: text
+  price: float
+}
+
+table(Booking) {
+  primary_key(id): int
+  user_id: int
+  service_id: int
+  doctor_id: int
+  scheduled_at: datetime
+  status: string
+  notes: text
+  created_at: datetime
+}
+
+table(Payment) {
+  primary_key(id): int
+  booking_id: int
+  amount: float
+  paid_at: datetime
+}
+
+table(Report) {
+  primary_key(id): int
+  booking_id: int
+  filename: string
+  file_path: string
+  uploaded_at: datetime
+}
+
+User ||--o{ Booking : has
+Service ||--o{ Booking : contains
+Booking ||--|| Payment : generates
+Booking ||--|| Report : produces
+Doctor ||--o{ Booking : performs
+
+table(Location) {
+  primary_key(id): int
+  name: string
+  address: string
+}
+
+table(Doctor) {
+  primary_key(id): int
+  name: string
+  specialty: string
+  location_id: int
+}
+
+table(Availability) {
+  primary_key(id): int
+  doctor_id: int
+  service_id: int
+  available_at: datetime
+}
+
+Location ||--o{ Doctor : "hosts"
+Doctor ||--o{ Availability : "has"
+Service ||--o{ Availability : "offered in"
+@enduml

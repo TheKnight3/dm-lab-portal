@@ -1,0 +1,78 @@
+@startuml
+
+class User {
+  +id: int
+  +name: string
+  +email: string
+  +password_hash: string
+  +role: Role
+}
+
+class Service {
+  +id: int
+  +name: string
+  +description: string
+  +price: float
+}
+
+class Booking {
+  +id: int
+  +scheduled_at: datetime
+  +status: BookingStatus
+  +notes: string
+  +doctor_id: int
+}
+
+class Payment {
+  +id: int
+  +amount: float
+  +paid_at: datetime
+}
+
+class Report {
+  +id: int
+  +filename: string
+  +file_path: string
+  +uploaded_at: datetime
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum BookingStatus {
+  BOOKED
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+class Location {
+  +id: int
+  +name: string
+  +address: string
+}
+
+class Doctor {
+  +id: int
+  +name: string
+  +specialty: string
+}
+
+class Availability {
+  +id: int
+  +available_at: datetime
+}
+
+Location "1" -- "0..*" Doctor
+Doctor "1" -- "0..*" Booking
+Doctor "1" -- "0..*" Availability
+Service "1" -- "0..*" Availability
+
+User "1" -- "0..*" Booking
+Service "1" -- "0..*" Booking
+Booking "1" -- "0..1" Payment
+Booking "1" -- "0..1" Report
+
+@enduml

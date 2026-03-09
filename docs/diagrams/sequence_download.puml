@@ -1,0 +1,22 @@
+@startuml
+actor User
+participant Frontend
+participant Backend
+database DB
+
+User -> Frontend: Apre area riservata
+Frontend -> Backend: GET /Backend/v1/bookings/me
+Backend -> DB: Recupera prenotazioni utente
+DB --> Backend: Lista prenotazioni
+Backend --> Frontend: 200 OK { bookings }
+Frontend -> Backend: GET /Backend/v1/reports/me
+Backend -> DB: Recupera referti dell'utente
+DB --> Backend: Lista referti
+Backend --> Frontend: 200 OK { reports }
+User -> Frontend: Clicca su "Scarica" su un referto
+Frontend -> Backend: GET /Backend/v1/reports/{id}/download
+Backend -> DB: Verifica permessi utente
+DB --> Backend: OK
+Backend --> Frontend: file PDF
+Frontend -> User: Scarica file
+@enduml

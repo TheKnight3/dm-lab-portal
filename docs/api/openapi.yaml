@@ -1,0 +1,689 @@
+openapi: 3.0.3
+info:
+  title: DMlab API
+  version: "1.0.0"
+  description: |
+    API RESTful per la piattaforma DMLab.
+servers:
+  - url: http://localhost:5000/api/v1
+    description: Ambiente locale
+paths:
+  /auth/register:
+    post:
+      summary: Registrazione utente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+      responses:
+        '201':
+          description: Utente creato
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Richiesta non valida
+    
+  /auth/login:
+    post:
+      summary: Login utente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+      responses:
+        '200':
+          description: Login riuscito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: Credenziali errate
+
+  /auth/me:
+    get:
+      summary: Profilo utente autenticato
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Dati utente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Token mancante o non valido
+
+  /services:
+    get:
+      summary: Elenco servizi
+      responses:
+        '200':
+          description: Lista di servizi
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Service'
+
+  /services/{id}:
+    get:
+      summary: Dettaglio servizio
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID del servizio
+      responses:
+        '200':
+          description: Servizio trovato
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+        '404':
+          description: Servizio non trovato
+
+  /bookings:
+    post:
+      summary: Creazione prenotazione
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingCreate'
+      responses:
+        '201':
+          description: Prenotazione creata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+        '400':
+          description: Parametri non validi
+        '401':
+          description: Non autorizzato
+
+  /bookings/{id}:
+    delete:
+      summary: Cancella prenotazione dell'utente
+      description: |
+        Permette all'utente autenticato di cancellare una propria prenotazione. La prenotazione
+        deve appartenere all'utente e non essere già stata completata. Lo stato sarà
+        aggiornato a `CANCELLED` e ogni pagamento associato verrà rimosso.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID della prenotazione
+      responses:
+        '200':
+          description: Prenotazione cancellata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+        '400':
+          description: Impossibile cancellare (prenotazione completata)
+        '401':
+          description: Non autorizzato
+        '403':
+          description: Accesso negato
+        '404':
+          description: Prenotazione non trovata
+    patch:
+      summary: Aggiorna prenotazione dell'utente
+      description: |
+        Permette all'utente autenticato di modificare la propria prenotazione.
+        È possibile aggiornare l'orario (`scheduled_at`), le note, il servizio e il medico
+        associato, purché la prenotazione non sia già stata completata o cancellata.
+        Lo stato non può essere modificato tramite questo endpoint; per cancellare una
+        prenotazione utilizzare la versione DELETE.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID della prenotazione
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                service_id:
+                  type: integer
+                doctor_id:
+                  type: integer
+                scheduled_at:
+                  type: string
+                  format: date-time
+                notes:
+                  type: string
+      responses:
+        '200':
+          description: Prenotazione aggiornata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+        '400':
+          description: Parametri non validi o stato non modificabile
+        '401':
+          description: Non autorizzato
+        '403':
+          description: Accesso negato
+        '404':
+          description: Prenotazione non trovata
+
+  /bookings/me:
+    get:
+      summary: Prenotazioni dell'utente autenticato
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista prenotazioni
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Booking'
+        '401':
+          description: Non autorizzato
+
+  /admin/bookings:
+    get:
+      summary: Prenotazioni (admin)
+      description: |
+        Recupera l'elenco delle prenotazioni. È possibile filtrare per intervallo
+        temporale tramite i parametri di query `start` e `end` (formato `YYYY-MM-DD`),
+        per stato, email utente e nome servizio. Richiede ruolo ADMIN.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: start
+          schema:
+            type: string
+            format: date
+          description: Data di inizio (inclusa) del range
+        - in: query
+          name: end
+          schema:
+            type: string
+            format: date
+          description: Data di fine (inclusa) del range
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum: [BOOKED, CONFIRMED, COMPLETED, CANCELLED]
+          description: Filtra per stato
+        - in: query
+          name: email
+          schema:
+            type: string
+          description: Filtra per email utente (contiene)
+        - in: query
+          name: service
+          schema:
+            type: string
+          description: Filtra per nome servizio (contiene)
+      responses:
+        '200':
+          description: Lista prenotazioni
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Booking'
+        '403':
+          description: Accesso negato (non admin)
+
+  /admin/bookings/{id}:
+    patch:
+      summary: Aggiorna prenotazione (admin)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: [BOOKED, CONFIRMED, COMPLETED, CANCELLED]
+                service_id:
+                  type: integer
+                doctor_id:
+                  type: integer
+                scheduled_at:
+                  type: string
+                  format: date-time
+                notes:
+                  type: string
+      responses:
+        '200':
+          description: Prenotazione aggiornata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+        '403':
+          description: Accesso negato
+        '404':
+          description: Prenotazione non trovata
+
+  /reports/me:
+    get:
+      summary: Referti dell'utente autenticato
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista referti
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Report'
+        '401':
+          description: Non autorizzato
+
+  /reports/{id}/download:
+    get:
+      summary: Scarica referto
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del referto
+      responses:
+        '200':
+          description: File PDF
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '403':
+          description: Accesso negato
+        '404':
+          description: Referto non trovato
+
+  /admin/reports/{booking_id}:
+    post:
+      summary: Carica referto (admin)
+      description: |
+        Permette agli amministratori di caricare o sostituire un referto in
+        formato PDF per una prenotazione specifica. Se esiste già un
+        referto per la prenotazione, il file verrà sostituito. Il file
+        deve essere inviato come `multipart/form-data` nel campo `file`.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: booking_id
+          required: true
+          schema:
+            type: integer
+          description: ID della prenotazione
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+              required: [file]
+      responses:
+        '201':
+          description: Referto caricato o aggiornato
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+        '400':
+          description: Richiesta non valida o file mancante
+        '403':
+          description: Accesso negato
+        '404':
+          description: Prenotazione non trovata
+
+  /reports/{id}:
+    put:
+      summary: Aggiorna referto
+      description: |
+        Sostituisce il file di un referto esistente. Gli utenti possono
+        modificare i propri referti e gli amministratori possono modificare
+        qualsiasi referto. Il file deve essere un PDF caricato come
+        `multipart/form-data` nel campo `file`.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del referto
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+              required: [file]
+      responses:
+        '200':
+          description: Referto aggiornato
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+        '400':
+          description: Richiesta non valida o file mancante
+        '403':
+          description: Accesso negato
+        '404':
+          description: Referto non trovato
+
+  /admin/finance:
+    get:
+      summary: Dashboard incassi (admin)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: period
+          required: true
+          schema:
+            type: string
+            enum: [daily, weekly, monthly]
+        - in: query
+          name: from
+          schema:
+            type: string
+            format: date
+          description: Data inizio (opzionale)
+        - in: query
+          name: to
+          schema:
+            type: string
+            format: date
+          description: Data fine (opzionale)
+      responses:
+        '200':
+          description: Dati aggregati incassi
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FinanceItem'
+        '403':
+          description: Accesso negato
+
+  /locations:
+    get:
+      summary: Elenco sedi
+      responses:
+        '200':
+          description: Lista sedi
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Location'
+
+  /locations/doctors:
+    get:
+      summary: Elenco medici
+      parameters:
+        - in: query
+          name: service_id
+          schema:
+            type: integer
+          description: Filtra medici per servizio
+        - in: query
+          name: location_id
+          schema:
+            type: integer
+          description: Filtra medici per sede
+      responses:
+        '200':
+          description: Lista medici
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Doctor'
+
+  /locations/availabilities:
+    get:
+      summary: Slot disponibili per medico
+      parameters:
+        - in: query
+          name: doctor_id
+          required: true
+          schema:
+            type: integer
+          description: ID del medico
+      responses:
+        '200':
+          description: Lista disponibilità
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Availability'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    UserRegister:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+      required: [name, email, password]
+
+    UserLogin:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+      required: [email, password]
+
+    AuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+        user:
+          $ref: '#/components/schemas/User'
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        role:
+          type: string
+      required: [id, name, email, role]
+
+    Service:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+          format: float
+      required: [id, name, price]
+
+    BookingCreate:
+      type: object
+      properties:
+        service_id:
+          type: integer
+        doctor_id:
+          type: integer
+        scheduled_at:
+          type: string
+          format: date-time
+        notes:
+          type: string
+      required: [service_id, doctor_id, scheduled_at]
+
+    Booking:
+      type: object
+      properties:
+        id:
+          type: integer
+        user:
+          $ref: '#/components/schemas/User'
+        service:
+          $ref: '#/components/schemas/Service'
+        doctor:
+          $ref: '#/components/schemas/Doctor'
+        scheduled_at:
+          type: string
+          format: date-time
+        status:
+          type: string
+        notes:
+          type: string
+      required: [id, user, service, doctor, scheduled_at, status]
+
+    Report:
+      type: object
+      properties:
+        id:
+          type: integer
+        booking:
+          $ref: '#/components/schemas/Booking'
+        filename:
+          type: string
+        file_path:
+          type: string
+        uploaded_at:
+          type: string
+          format: date-time
+      required: [id, booking, filename, file_path]
+
+    FinanceItem:
+      type: object
+      properties:
+        period:
+          type: string
+        total_amount:
+          type: number
+          format: float
+      required: [period, total_amount]
+
+    Location:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        address:
+          type: string
+      required: [id, name, address]
+
+    Doctor:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        specialty:
+          type: string
+        location:
+          $ref: '#/components/schemas/Location'
+      required: [id, name, location]
+
+    Availability:
+      type: object
+      properties:
+        id:
+          type: integer
+        doctor:
+          $ref: '#/components/schemas/Doctor'
+        service:
+          $ref: '#/components/schemas/Service'
+        available_at:
+          type: string
+          format: date-time
+      required: [id, doctor, service, available_at]

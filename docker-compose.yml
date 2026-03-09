@@ -1,0 +1,53 @@
+version: '3.3'
+
+services:
+  db:
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_DB: dmlab
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./dm-lab-backend
+    restart: always
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/dmlab
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      JWT_SECRET_KEY: super-secret-key-change-me
+      ADMIN_EMAIL: admin@dmlab.it
+      ADMIN_PASSWORD: adminpass
+      USER1_EMAIL: alice@dmlab.it
+      USER1_PASSWORD: password
+      USER2_EMAIL: bob@dmlab.it
+      USER2_PASSWORD: password
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ./dm-lab-frontend
+    restart: always
+    environment:
+      # Allow file watching within containers
+      CHOKIDAR_USEPOLLING: "true"
+      # Use relative path for API base; nginx or vite proxy will handle routing
+      VITE_API_BASE_URL: /api/v1
+    ports:
+      - "4200:4200"
+    depends_on:
+      - backend
+
+volumes:
+  db-data:

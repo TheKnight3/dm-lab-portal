@@ -1,0 +1,15 @@
+@startuml
+actor User
+participant Frontend as Frontend
+participant Backend as Backend
+database DB
+
+User -> Frontend: Inserisce email e password
+Frontend -> Backend: POST /Backend/v1/auth/login
+Backend -> DB: Cercare utente per email
+DB --> Backend: Record utente
+Backend -> Backend: Verifica password
+Backend -> Backend: Genera JWT
+Backend --> Frontend: 200 OK { token, user }
+Frontend -> Frontend: Salva token nel localStorage
+@enduml

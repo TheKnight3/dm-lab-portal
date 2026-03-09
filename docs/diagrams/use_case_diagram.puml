@@ -1,0 +1,15 @@
+@startuml
+left to right direction
+
+actor User
+actor Admin
+
+rectangle "DMlab System" {
+  User -- (Browse services)
+  User -- (Book a service)
+  User -- (View my bookings)
+  User -- (Download reports)
+  Admin -- (View today's bookings)
+  Admin -- (Finance dashboard)
+}
+@enduml
