@@ -71,9 +71,9 @@ def seed_db() -> None:
 
     # Create locations
     locations_data = [
-        ("Laboratorio Infernetto", "Via Canale della Lingua 20/24, Roma"),
-        ("Centro Ostia", "Piazza della Stazione Vecchia 20, Ostia Lido"),
-        ("Laboratorio Eur", "Viale Europa 101, Roma"),
+        ("Centro Infernetto", "Via degli Strauss, 88/90, 00124 Roma"),
+        ("Centro Laurentina", "Via Laurentina 56, 00144 Roma"),
+        ("Centro Eur", "Viale Europa 100, 00144 Roma"),
     ]
     locations: list[Location] = []
     for name, address in locations_data:

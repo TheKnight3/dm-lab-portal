@@ -59,7 +59,9 @@ const Footer = () => {
               <a href="/#servizi" className="block hover:text-accent transition-colors">Servizi</a>
               <a href="/prenota" className="block hover:text-accent transition-colors">Prenota online</a>
               <a href="/#chi-siamo" className="block hover:text-accent transition-colors">Chi siamo</a>
-              <a href="#" className="block hover:text-accent transition-colors">Privacy Policy</a>
+              <a href="/privacy-policy-dmlab.pdf" download className="block hover:text-accent transition-colors">
+                  Privacy Policy
+              </a>
             </div>
           </div>
         </div>

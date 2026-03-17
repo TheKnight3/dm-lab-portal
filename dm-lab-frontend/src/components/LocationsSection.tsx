@@ -3,10 +3,10 @@ import { MapPin, Phone, Clock } from "lucide-react";
 const locations = [
   {
     name: "Sede Centrale",
-    address: "Via Tuscolana 388, 00181 Roma",
+    address: "Via degli Strauss, 88/90, 00124 Roma",
     phone: "06 561951",
     hours: "Lun-Ven: 07:00 - 19:00 | Sab: 07:00 - 13:00",
-    mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2970.5!2d12.52!3d41.87!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDUyJzEyLjAiTiAxMsKwMzEnMTIuMCJF!5e0!3m2!1sit!2sit!4v1600000000000",
+    mapEmbed: "",
   },
   {
     name: "Sede EUR",
@@ -16,8 +16,8 @@ const locations = [
     mapEmbed: null,
   },
   {
-    name: "Sede Parioli",
-    address: "Via dei Parioli 56, 00197 Roma",
+    name: "Sede Laurentina",
+    address: "Via Laurentina 56, 00144 Roma",
     phone: "06 563000",
     hours: "Lun-Ven: 08:00 - 18:00",
     mapEmbed: null,
