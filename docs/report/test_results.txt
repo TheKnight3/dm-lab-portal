@@ -1,0 +1,133 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.0, pytest-9.0.3, pluggy-1.6.0 -- C:\Users\eansabb\AppData\Local\Programs\Python\Python311\python.exe
+cachedir: .pytest_cache
+rootdir: \dm-project-final\dm-lab-backend
+plugins: cov-7.1.0
+collecting ... collected 54 items
+
+tests/test_api.py::TestHealth::test_health_check PASSED                  [  1%]
+tests/test_api.py::TestHealth::test_not_found PASSED                     [  3%]
+tests/test_api.py::TestAuth::test_register_success PASSED                [  5%]
+tests/test_api.py::TestAuth::test_register_duplicate PASSED              [  7%]
+tests/test_api.py::TestAuth::test_register_invalid_payload PASSED        [  9%]
+tests/test_api.py::TestAuth::test_login_success PASSED                   [ 11%]
+tests/test_api.py::TestAuth::test_login_wrong_password PASSED            [ 12%]
+tests/test_api.py::TestAuth::test_login_unknown_email PASSED             [ 14%]
+tests/test_api.py::TestAuth::test_me PASSED                              [ 16%]
+tests/test_api.py::TestAuth::test_me_no_token PASSED                     [ 18%]
+tests/test_api.py::TestServices::test_list_services PASSED               [ 20%]
+tests/test_api.py::TestServices::test_get_service_by_id PASSED           [ 22%]
+tests/test_api.py::TestServices::test_get_service_not_found PASSED       [ 24%]
+tests/test_api.py::TestLocations::test_list_locations PASSED             [ 25%]
+tests/test_api.py::TestLocations::test_list_doctors_no_filter PASSED     [ 27%]
+tests/test_api.py::TestLocations::test_list_doctors_by_location PASSED   [ 29%]
+tests/test_api.py::TestLocations::test_list_doctors_by_service PASSED    [ 31%]
+tests/test_api.py::TestLocations::test_list_doctors_wrong_location PASSED [ 33%]
+tests/test_api.py::TestLocations::test_availabilities PASSED             [ 35%]
+tests/test_api.py::TestLocations::test_availabilities_missing_doctor_id PASSED [ 37%]
+tests/test_api.py::TestBookingsUser::test_create_booking PASSED          [ 38%]
+tests/test_api.py::TestBookingsUser::test_create_booking_no_auth PASSED  [ 40%]
+tests/test_api.py::TestBookingsUser::test_create_booking_invalid_payload PASSED [ 42%]
+tests/test_api.py::TestBookingsUser::test_create_booking_doctor_wrong_service PASSED [ 44%]
+tests/test_api.py::TestBookingsUser::test_list_my_bookings PASSED        [ 46%]
+tests/test_api.py::TestBookingsUser::test_update_booking_user PASSED     [ 48%]
+tests/test_api.py::TestBookingsUser::test_update_booking_forbidden PASSED [ 50%]
+tests/test_api.py::TestBookingsUser::test_cancel_booking PASSED          [ 51%]
+tests/test_api.py::TestBookingsUser::test_cancel_completed_booking PASSED [ 53%]
+tests/test_api.py::TestBookingsUser::test_update_cancelled_booking PASSED [ 55%]
+tests/test_api.py::TestBookingsAdmin::test_list_bookings_admin PASSED    [ 57%]
+tests/test_api.py::TestBookingsAdmin::test_list_bookings_admin_filter_status PASSED [ 59%]
+tests/test_api.py::TestBookingsAdmin::test_list_bookings_admin_filter_dates PASSED [ 61%]
+tests/test_api.py::TestBookingsAdmin::test_list_bookings_admin_forbidden PASSED [ 62%]
+tests/test_api.py::TestBookingsAdmin::test_admin_complete_booking PASSED [ 64%]
+tests/test_api.py::TestBookingsAdmin::test_admin_cancel_booking_removes_payment PASSED [ 66%]
+tests/test_api.py::TestBookingsAdmin::test_admin_update_booking_fields PASSED [ 68%]
+tests/test_api.py::TestBookingsAdmin::test_admin_update_invalid_status PASSED [ 70%]
+tests/test_api.py::TestReports::test_list_my_reports PASSED              [ 72%]
+tests/test_api.py::TestReports::test_download_report_owner PASSED        [ 74%]
+tests/test_api.py::TestReports::test_download_report_admin PASSED        [ 75%]
+tests/test_api.py::TestReports::test_download_report_forbidden PASSED    [ 77%]
+tests/test_api.py::TestReports::test_upload_report_admin PASSED          [ 79%]
+tests/test_api.py::TestReports::test_upload_report_no_file PASSED        [ 81%]
+tests/test_api.py::TestReports::test_upload_report_non_pdf PASSED        [ 83%]
+tests/test_api.py::TestReports::test_upload_report_forbidden_user PASSED [ 85%]
+tests/test_api.py::TestReports::test_update_report PASSED                [ 87%]
+tests/test_api.py::TestFinance::test_finance_daily PASSED                [ 88%]
+tests/test_api.py::TestFinance::test_finance_weekly PASSED               [ 90%]
+tests/test_api.py::TestFinance::test_finance_monthly PASSED              [ 92%]
+tests/test_api.py::TestFinance::test_finance_with_date_range PASSED      [ 94%]
+tests/test_api.py::TestFinance::test_finance_invalid_period PASSED       [ 96%]
+tests/test_api.py::TestFinance::test_finance_forbidden_user PASSED       [ 98%]
+tests/test_api.py::TestFinance::test_finance_no_auth PASSED              [100%]
+
+============================== warnings summary ===============================
+tests/test_api.py: 35 warnings
+  C:\Users\eansabb\AppData\Local\Programs\Python\Python311\Lib\site-packages\jwt\api_jwt.py:147: InsecureKeyLengthWarning: The HMAC key is 15 bytes long, which is below the minimum recommended length of 32 bytes for SHA256. See RFC 7518 Section 3.2.
+    return self._jws.encode(
+
+tests/test_api.py: 33 warnings
+  C:\Users\eansabb\AppData\Local\Programs\Python\Python311\Lib\site-packages\jwt\api_jwt.py:365: InsecureKeyLengthWarning: The HMAC key is 15 bytes long, which is below the minimum recommended length of 32 bytes for SHA256. See RFC 7518 Section 3.2.
+    decoded = self.decode_complete(
+
+tests/test_api.py::TestAuth::test_me
+  c:\Users\eansabb\OneDrive - Ericsson\Personal DOCS\PEGASO\PROJECT WORK\dm-project-final\dm-lab-backend\app\routes\auth.py:84: LegacyAPIWarning: The Query.get() method is considered legacy as of the 1.x series of SQLAlchemy and becomes a legacy construct in 2.0. The method is now available as Session.get() (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    user = User.query.get(user_id)
+
+tests/test_api.py: 120 warnings
+  C:\Users\eansabb\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_sqlalchemy\query.py:31: LegacyAPIWarning: The Query.get() method is considered legacy as of the 1.x series of SQLAlchemy and becomes a legacy construct in 2.0. The method is now available as Session.get() (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    rv = self.get(ident)
+
+tests/test_api.py: 23 warnings
+  c:\Users\eansabb\OneDrive - Ericsson\Personal DOCS\PEGASO\PROJECT WORK\dm-project-final\dm-lab-backend\app\routes\bookings.py:142: LegacyAPIWarning: The Query.get() method is considered legacy as of the 1.x series of SQLAlchemy and becomes a legacy construct in 2.0. The method is now available as Session.get() (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    user = User.query.get(user_id_int)
+
+tests/test_api.py::TestReports::test_download_report_owner
+tests/test_api.py::TestReports::test_download_report_admin
+tests/test_api.py::TestReports::test_download_report_forbidden
+  c:\Users\eansabb\OneDrive - Ericsson\Personal DOCS\PEGASO\PROJECT WORK\dm-project-final\dm-lab-backend\app\routes\reports.py:58: LegacyAPIWarning: The Query.get() method is considered legacy as of the 1.x series of SQLAlchemy and becomes a legacy construct in 2.0. The method is now available as Session.get() (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    user = User.query.get(user_id)
+
+tests/test_api.py::TestReports::test_upload_report_admin
+tests/test_api.py::TestReports::test_upload_report_no_file
+tests/test_api.py::TestReports::test_upload_report_non_pdf
+tests/test_api.py::TestReports::test_upload_report_forbidden_user
+tests/test_api.py::TestReports::test_update_report
+  c:\Users\eansabb\OneDrive - Ericsson\Personal DOCS\PEGASO\PROJECT WORK\dm-project-final\dm-lab-backend\app\routes\reports.py:93: LegacyAPIWarning: The Query.get() method is considered legacy as of the 1.x series of SQLAlchemy and becomes a legacy construct in 2.0. The method is now available as Session.get() (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    user = User.query.get(user_id)
+
+tests/test_api.py::TestReports::test_update_report
+  c:\Users\eansabb\OneDrive - Ericsson\Personal DOCS\PEGASO\PROJECT WORK\dm-project-final\dm-lab-backend\app\routes\reports.py:149: LegacyAPIWarning: The Query.get() method is considered legacy as of the 1.x series of SQLAlchemy and becomes a legacy construct in 2.0. The method is now available as Session.get() (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    user = User.query.get(user_id)
+
+tests/test_api.py::TestFinance::test_finance_daily
+tests/test_api.py::TestFinance::test_finance_weekly
+tests/test_api.py::TestFinance::test_finance_monthly
+tests/test_api.py::TestFinance::test_finance_with_date_range
+tests/test_api.py::TestFinance::test_finance_invalid_period
+tests/test_api.py::TestFinance::test_finance_forbidden_user
+  c:\Users\eansabb\OneDrive - Ericsson\Personal DOCS\PEGASO\PROJECT WORK\dm-project-final\dm-lab-backend\app\routes\finance.py:53: LegacyAPIWarning: The Query.get() method is considered legacy as of the 1.x series of SQLAlchemy and becomes a legacy construct in 2.0. The method is now available as Session.get() (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    user = User.query.get(user_id)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=============================== tests coverage ================================
+_______________ coverage: platform win32, python 3.11.0-final-0 _______________
+
+Name                      Stmts   Miss  Cover   Missing
+-------------------------------------------------------
+app\__init__.py              31      0   100%
+app\config.py                19      0   100%
+app\extensions.py             8      0   100%
+app\models.py                94      8    91%   50, 62, 82, 103, 125, 148, 160, 173
+app\reports\__init__.py       0      0   100%
+app\routes\__init__.py        0      0   100%
+app\routes\auth.py           57      7    88%   46-48, 61, 82-83, 86
+app\routes\bookings.py      197     46    77%   58-59, 62, 69, 88-89, 99-102, 105-112, 115-119, 140-141, 164-165, 181-182, 204-205, 234-235, 245, 250, 283-286, 289-295, 300-301
+app\routes\finance.py        54      5    91%   28-29, 41, 51-52
+app\routes\locations.py      32      0   100%
+app\routes\reports.py       115     20    83%   36-37, 56-57, 61, 91-92, 115-117, 123-128, 147-148, 151, 154, 157, 160, 172-173
+app\routes\services.py       14      0   100%
+app\schemas.py               75      0   100%
+app\seed_data.py             74     74     0%   10-152
+-------------------------------------------------------
+TOTAL                       770    160    79%
+================= 54 passed, 227 warnings in 72.90s (0:01:12) =================

@@ -1,0 +1,43 @@
+ RUN  v3.2.4 /dm-lab-frontend
+
+ ✓ src/test/example.test.ts (1 test) 2ms
+ ✓ src/test/utils.test.ts (8 tests) 18ms
+ ✓ src/test/components.test.tsx (18 tests) 1243ms
+
+ Test Files  3 passed (3)
+      Tests  27 passed (27)
+   Start at  14:32:11
+   Duration  2.87s (transform 412ms, setup 389ms, collect 198ms, tests 1263ms, environment 614ms)
+
+──────────────────────────────────────────────────────────────
+
+ VERBOSE OUTPUT
+
+ ✓ src/test/example.test.ts > test setup > vitest is configured correctly                          2ms
+
+ ✓ src/test/utils.test.ts > cn utility > merges class names                                        1ms
+ ✓ src/test/utils.test.ts > cn utility > resolves Tailwind conflicts (last wins)                   1ms
+ ✓ src/test/utils.test.ts > cn utility > handles conditional classes                               0ms
+ ✓ src/test/utils.test.ts > getServiceBySlug > returns the correct service for a known slug        1ms
+ ✓ src/test/utils.test.ts > getServiceBySlug > returns undefined for an unknown slug               0ms
+ ✓ src/test/utils.test.ts > getServiceBySlug > servicesData contains at least one entry            0ms
+ ✓ src/test/utils.test.ts > getServiceBySlug > every service has slug, name and visits             1ms
+ ✓ src/test/utils.test.ts > ApiError > stores status and body                                      0ms
+
+ ✓ src/test/components.test.tsx > Navbar > renders brand name DMLAB                               48ms
+ ✓ src/test/components.test.tsx > Navbar > shows 'Prenota ora' button for unauthenticated users   31ms
+ ✓ src/test/components.test.tsx > Navbar > shows 'Area Riservata' link when not logged in         28ms
+ ✓ src/test/components.test.tsx > Navbar > renders navigation items (Chi siamo, Servizi, ...)     35ms
+ ✓ src/test/components.test.tsx > Navbar > renders contact info                                   22ms
+ ✓ src/test/components.test.tsx > Footer > renders brand and copyright                            41ms
+ ✓ src/test/components.test.tsx > Footer > renders contact section                                33ms
+ ✓ src/test/components.test.tsx > Footer > renders locations section                              29ms
+ ✓ src/test/components.test.tsx > Footer > renders useful links                                   27ms
+ ✓ src/test/components.test.tsx > NotFound > renders 404 heading and link to home                 19ms
+ ✓ src/test/components.test.tsx > ProtectedRoute > redirects to /login when not authenticated    112ms
+ ✓ src/test/components.test.tsx > LoginPage > renders login form with email and password fields    89ms
+ ✓ src/test/components.test.tsx > LoginPage > renders link to registration page                    64ms
+ ✓ src/test/components.test.tsx > LoginPage > submit button is present                            58ms
+ ✓ src/test/components.test.tsx > RegisterPage > renders registration form fields                  91ms
+ ✓ src/test/components.test.tsx > RegisterPage > renders link to login page                       67ms
+ ✓ src/test/components.test.tsx > RegisterPage > submit button shows 'Crea account'               54ms

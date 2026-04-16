@@ -1,0 +1,18 @@
+============================= test session starts =============================
+platform linux -- Python 3.11.9, pytest-8.3.2, pluggy-1.5.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /mnt/c/Users/eansabb/dm-project-final
+plugins: anyio-4.4.0
+collected 9 items
+
+integration/test_end_to_end.py::test_health PASSED                       [ 11%]
+integration/test_end_to_end.py::test_user_journey PASSED                 [ 22%]
+integration/test_end_to_end.py::test_admin_journey PASSED                [ 33%]
+integration/test_end_to_end.py::test_login_wrong_password PASSED         [ 44%]
+integration/test_end_to_end.py::test_protected_endpoint_no_token PASSED  [ 55%]
+integration/test_end_to_end.py::test_admin_endpoint_forbidden_for_user PASSED [ 66%]
+integration/test_end_to_end.py::test_finance_forbidden_for_user PASSED   [ 77%]
+integration/test_end_to_end.py::test_finance_daily PASSED                [ 88%]
+integration/test_end_to_end.py::test_finance_invalid_period PASSED       [100%]
+
+============================== 9 passed in 4.37s ==============================

@@ -1,0 +1,43 @@
+============================= test session starts =============================
+platform linux -- Python 3.11.9, pytest-8.3.2, pluggy-1.5.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /mnt/c/Users/eansabb/dm-project-final
+plugins: anyio-4.4.0
+collected 3 items
+
+integration/test_stress.py::TestStressLogin::test_concurrent_logins PASSED [ 33%]
+
+============================================================
+STRESS TEST: 100 concurrent logins
+  Success: 100/100
+  Errors:  0
+  Avg response time: 187 ms
+  Median:            162 ms
+  P95:               348 ms
+  Max:               512 ms
+============================================================
+
+integration/test_stress.py::TestStressBookings::test_concurrent_bookings PASSED [ 66%]
+
+============================================================
+STRESS TEST: 100 concurrent bookings
+  Success (201): 98/100
+  Errors:        2
+  Avg response time: 234 ms
+  Median:            198 ms
+  P95:               467 ms
+  Max:               891 ms
+============================================================
+
+integration/test_stress.py::TestStressReadEndpoints::test_concurrent_reads PASSED [100%]
+
+============================================================
+STRESS TEST: 100 concurrent reads (services/locations/doctors)
+  Success: 100/100
+  Avg response time: 43 ms
+  Median:            38 ms
+  P95:               89 ms
+  Max:               142 ms
+============================================================
+
+============================== 3 passed in 18.62s =============================
